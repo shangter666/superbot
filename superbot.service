@@ -1,0 +1,20 @@
+[Unit]
+Description=Superbot System Service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+# Change this to the path where your project is located
+WorkingDirectory=/opt/superbot
+ExecStart=/usr/bin/python3 /opt/superbot/start_superbot.py --evolution
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/superbot.log
+StandardError=append:/var/log/superbot.log
+
+# Environment variables
+Environment="PYTHONUNBUFFERED=1"
+
+[Install]
+WantedBy=multi-user.target
