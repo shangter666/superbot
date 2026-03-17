@@ -1,0 +1,81 @@
+# Linux Agent Configuration Example
+# Copy this file to config.yaml and fill in your settings
+
+# =============================================================================
+# AI Models Configuration
+# =============================================================================
+
+# Primary AI - the main model that handles tasks
+primary_ai:
+  name: DeepSeek
+  provider: deepseek    # Options: openai, anthropic, deepseek, gemini
+  model: deepseek-chat
+  api_key: ${DEEPSEEK_API_KEY}  # Use env var or paste key directly
+
+# Secondary AIs - consulted when primary fails repeatedly
+secondary_ais:
+  - name: Gemini-Consultant
+    provider: gemini
+    model: gemini-2.5-flash  # Options: gemini-2.5-flash, gemini-2.5-pro, gemini-3-flash-preview, gemini-3-pro-preview
+    api_key: ${GEMINI_API_KEY}
+    role: consultant
+
+  # Uncomment to add more consultants
+  # - name: GPT-4-Consultant
+  #   provider: openai
+  #   model: gpt-4o
+  #   api_key: ${OPENAI_API_KEY}
+  #   role: consultant
+
+# =============================================================================
+# Agent Behavior Settings
+# =============================================================================
+
+agent:
+  max_retries: 3                    # Retry attempts before escalating
+  search_attempts_before_consult: 2 # Web searches before consulting secondary AI
+  max_iterations: 15                # Max tool call iterations per request
+  
+  # 🧬 自我进化模式设置
+  auto_evolution:
+    enabled: false                  # 是否启用自动进化（true/false）
+    check_interval_hours: 24        # 检查间隔（小时）
+    min_tasks_before_evolution: 10  # 触发进化前的最小任务数
+    auto_apply_improvements: false  # 是否自动应用改进（不询问用户）
+
+# =============================================================================
+# Paths and Storage
+# =============================================================================
+
+workspace_path: ~/agent_workspace   # 代码文件操作的工作目录
+sandbox_path: /tmp/agent_sandbox    # 临时文件目录
+checkpoint_db: checkpoints.db       # SQLite database for state persistence
+
+# =============================================================================
+# MCP Server Configuration (for advanced usage)
+# =============================================================================
+
+mcp_servers:
+  - name: system-monitor
+    transport: stdio
+    command: python3
+    args: ["-m", "src.mcp_servers.system_monitor"]
+    timeout: 30
+
+  - name: file-manager
+    transport: stdio
+    command: python3
+    args: ["-m", "src.mcp_servers.file_manager", "/tmp/agent_sandbox"]
+    timeout: 30
+
+  - name: network
+    transport: stdio
+    command: python3
+    args: ["-m", "src.mcp_servers.network"]
+    timeout: 60
+
+  - name: service-manager
+    transport: stdio
+    command: python3
+    args: ["-m", "src.mcp_servers.service_manager"]
+    timeout: 30
