@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "langgraph-mcp-agent"
+name = "superbot"
 version = "0.1.0"
 description = "A Linux intelligent agent system based on LangGraph + MCP protocol"
 readme = "README.md"
@@ -48,7 +48,7 @@ dev = [
 ]
 
 [project.scripts]
-linux-agent = "src.cli:main"
+superbot = "src.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
