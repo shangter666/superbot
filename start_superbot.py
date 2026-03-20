@@ -170,7 +170,7 @@ def main():
     # 启动服务
     try:
         uvicorn.run(
-            "src.web_app:app",
+            "src.web.web_app:app",
             host=args.host,
             port=args.port,
             reload=args.reload,

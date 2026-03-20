@@ -9,8 +9,8 @@
 """
 
 import asyncio
-from src.common.config import AgentConfig
-from src.agent import LinuxAgent
+from src.utils.common.config import AgentConfig
+from src.core.agent import LinuxAgent
 
 
 async def demo_self_reflection():

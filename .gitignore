@@ -14,6 +14,7 @@ eggs/
 venv/
 env/
 .venv/
+myenv/
 
 # IDE
 .idea/
@@ -21,11 +22,26 @@ env/
 *.swp
 *.swo
 
-# Config with sensitive data
+# Config
 config.yaml
+!config.example.yaml
+.env
 
-# Logs
+# Logs & Temp
 *.log
+.evolution_backups/
+conversations/
+
+# AI Evolution Specific
+# We ignore the actual database and temporary generated items, but keep the folder structure
+experience_db/*
+!experience_db/.gitkeep
+src/experience_db/*
+!src/experience_db/.gitkeep
+
+# Generated tools (AI's dynamic experiments)
+generated_tools/
+src/generated_tools/
 
 # OS
 .DS_Store

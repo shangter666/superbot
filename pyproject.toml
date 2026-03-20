@@ -48,7 +48,7 @@ dev = [
 ]
 
 [project.scripts]
-superbot = "src.cli:main"
+superbot = "src.cli.cli:main"
 
 [tool.setuptools.packages.find]
 where = ["."]
