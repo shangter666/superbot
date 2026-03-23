@@ -7,10 +7,10 @@
 
 # Primary AI - the main model that handles tasks
 primary_ai:
-  name: DeepSeek
-  provider: deepseek    # Options: openai, anthropic, deepseek, gemini
-  model: deepseek-chat
-  api_key: ${DEEPSEEK_API_KEY}  # Use env var or paste key directly
+  name: Qwen 
+  provider: Qwen # Options: openai, anthropic, deepseek, gemini
+  model: qwen3.5-plus 
+  api_key: ${QWEN_API_KEY}  # Use env var or paste key directly
 
 # Secondary AIs - consulted when primary fails repeatedly
 secondary_ais:
@@ -59,23 +59,23 @@ mcp_servers:
   - name: system-monitor
     transport: stdio
     command: python3
-    args: ["-m", "src.mcp_servers.system_monitor"]
+    args: ["-m", "src.mcp.servers.system_monitor"]
     timeout: 30
 
   - name: file-manager
     transport: stdio
     command: python3
-    args: ["-m", "src.mcp_servers.file_manager", "/tmp/agent_sandbox"]
+    args: ["-m", "src.mcp.servers.file_manager", "/tmp/agent_sandbox"]
     timeout: 30
 
   - name: network
     transport: stdio
     command: python3
-    args: ["-m", "src.mcp_servers.network"]
+    args: ["-m", "src.mcp.servers.network"]
     timeout: 60
 
   - name: service-manager
     transport: stdio
     command: python3
-    args: ["-m", "src.mcp_servers.service_manager"]
+    args: ["-m", "src.mcp.servers.service_manager"]
     timeout: 30
