@@ -28,7 +28,7 @@ class AIModelConfig:
     """Configuration for an AI model."""
     
     name: str
-    provider: Literal["openai", "anthropic", "deepseek", "gemini"]
+    provider: Literal["openai", "anthropic", "deepseek", "gemini", "qwen", "glm", "zhipu"]
     model: str
     api_key: str
     role: str = "primary"  # primary, consultant, specialist

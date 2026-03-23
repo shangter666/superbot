@@ -140,6 +140,7 @@ def get_api_key(args: argparse.Namespace) -> str:
         "openai": "OPENAI_API_KEY",
         "anthropic": "ANTHROPIC_API_KEY",
         "deepseek": "DEEPSEEK_API_KEY",
+        "qwen": "QWEN_API_KEY",
     }
     
     env_var = env_vars.get(args.provider, "OPENAI_API_KEY")

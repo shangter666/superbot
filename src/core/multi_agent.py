@@ -3,9 +3,14 @@
 import asyncio
 import json
 import uuid
+import os
 from typing import Any
 from dataclasses import dataclass
 from enum import Enum
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage, SystemMessage
 
@@ -497,14 +502,18 @@ def load_config_from_env():
     """Load configuration from environment variables (fallback)."""
     import os
     
+    qwen_key = os.environ.get("QWEN_API_KEY", "")
     deepseek_key = os.environ.get("DEEPSEEK_API_KEY", "")
     openai_key = os.environ.get("OPENAI_API_KEY", "")
     gemini_key = os.environ.get("GEMINI_API_KEY", "")
     
-    if not deepseek_key and not openai_key and not gemini_key:
+    if not qwen_key and not deepseek_key and not openai_key and not gemini_key:
         return None, None
     
-    if deepseek_key:
+    if qwen_key:
+        primary = AIConfig(name="Qwen", provider="qwen", 
+                          model="qwen-max", api_key=qwen_key, role="primary")
+    elif deepseek_key:
         primary = AIConfig(name="DeepSeek", provider="deepseek", 
                           model="deepseek-chat", api_key=deepseek_key, role="primary")
     elif openai_key:
@@ -515,6 +524,9 @@ def load_config_from_env():
                           model="gemini-2.5-flash", api_key=gemini_key, role="primary")
     
     secondary = []
+    if qwen_key and primary.provider != "qwen":
+         secondary.append(AIConfig(name="Qwen-Consultant", provider="qwen",
+                                  model="qwen-max", api_key=qwen_key, role="consultant"))
     if gemini_key and primary.provider != "gemini":
         secondary.append(AIConfig(name="Gemini-Consultant", provider="gemini",
                                   model="gemini-2.5-flash", api_key=gemini_key, role="consultant"))
@@ -568,6 +580,7 @@ async def main():
         print("Error: No API key configured!")
         print("\nOption 1: Create config.yaml from config.example.yaml")
         print("Option 2: Set environment variables:")
+        print("  - QWEN_API_KEY")
         print("  - DEEPSEEK_API_KEY")
         print("  - OPENAI_API_KEY") 
         print("  - GEMINI_API_KEY")
